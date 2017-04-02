@@ -1,0 +1,223 @@
+<!doctype html>
+<!-- Mouse events example 1 use Javascript and DOM to create every element
+ added as a result of clicking on a list item -->
+<html>
+  <head>
+    <title>Mouse Events</title>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="../images/hcj.png" />
+    <style type="text/css" >
+      body {
+        background-color:lightyellow;
+        font-size: 1.2em;
+      }
+
+    button {
+      font-size: 1.1em;
+      background: lightgreen;
+    }
+
+    .div1 {
+      background-color:saddleBrown;
+      width:170px;
+      height:30px;
+      margin:20px;
+      padding-top:10px;
+      color:#fff;
+      font-weight:bold;
+      font-size:18px;
+      text-align:center;
+    }
+
+    .span { font-size:1.1em; color:#e44; }
+      </style>
+    <script src="report_4.js"></script>
+  </head>
+  <body>
+    <h1>Mouse events</h1>
+    <button onClick="toggleParagraphCounter()">Toggle paragraph counter</button>
+    <button onClick="addNewClickMeToList()">Add new click me in the list</button>
+    <p id=para1 onclick="clickMe();">Click this paragraph. It has not yet
+    been clicked.
+
+    <div id=div1 class=div1 onmouseover="mouseOnMe();"
+      onmouseout="mouseOffMe();">Mouse Over Me
+    </div>
+    <ol id="list1">
+      <!-- Note the parameter "this" for the mouse events.
+       "this" is a pointer to the HTML element that has the mouse event
+       attribute.  In this way the mouse event functions can deterine which
+       element was clicked, without having to write a mouse event function
+       for each element.
+       -->
+      <li onmouseover="mouseOver(this);"
+        onmouseout="mouseOff(this);"
+        onclick="iWasClicked(this);">**** Hover over me. Click at your peril.</li>
+
+      <li>&nbsp;</li>
+
+      <li onmouseover="mouseOver(this);"
+        onmouseout="mouseOff(this);"
+        onclick="iWasClicked(this);">++++No hover over me. Click at your peril.</li>
+    </ol>
+    <script>
+      "use strict"; var document; var window; var console;
+      var div1 = document.getElementById("div1");
+      var body = document.getElementsByTagName("body")[0];
+      var bodyStartLength = body.childNodes.length;
+
+      // clickMeEvenTimes is true when the paragraph para1 has been clicked
+      // and even number of times.  It starts at true because 0 is an even
+      //number.
+
+      var clickMeEvenTimes = true;
+
+      // mouseOnMe is called when the mouse hovers over the div1 box,
+      // changing the displayed text.
+
+      function mouseOnMe () {
+        div1.innerHTML = "Thank you";
+      }
+
+    // mouseOffMe is called when the mouse moves off the div1 box, restoring
+    // the display text to what it was before the mouse hovered over the box.
+
+    function mouseOffMe () {
+      div1.innerHTML = "Mouse Over Me";
+    }
+
+    // clickMe is called when the mouse clicks on the paragraph para1.
+
+    function clickMe() {
+      // para1 points to the paragraph para1.
+
+      var para1 = document.getElementById("para1");
+
+      // Check for an even/odd number of times the paragraph has been clicked.
+
+      if (clickMeEvenTimes) {
+        // The paragraph has been clicked an even number of times.
+        // Change the color of the text, and display the fact that the
+        // paragraph has been clicked an even number of times.
+
+        para1.style = "color:green";
+        para1.innerHTML = "Click this paragraph." +
+        " It has been clicked an odd number of times.";
+      }
+      else {
+        // The paragraph has been clicked an odd number of times.
+        // Change the color and size of the text, and display the fact that the
+        // paragraph has been clicked an even number of times.
+
+        para1.style = "font-size:0.9em";
+        para1.innerHTML = "Click this paragraph." +
+        " It has been clicked an even number of times.";
+      }
+      // Reverse the value of clickMeEvenTimes to record the odd numbered
+      // click.
+
+      clickMeEvenTimes = !clickMeEvenTimes;
+    }
+
+    // mouseOver is called when the mouse hovers over one of the list items.
+    // The parameter is a pointer to the item over which the mouse is
+    // hovering.  As a consequence, change the color of the list item.
+
+    function mouseOver(theItemIamOn) {
+      theItemIamOn.style="color:brown";
+    }
+
+    // mouseOff is called when the mouse moves off the list item over which
+    // it was hovering.
+    // The parameter is a pointer to the item over which the mouse was
+    // hovering.  As a consequence, (1) change the color of the list item,
+    // and (2) remove all the children added to the bulleted list that might
+    // have been added if the list item was clicked.
+
+    function mouseOff(theItemIwasOn) {
+      theItemIwasOn.style="color:blue";
+
+      // count is the number of children the bulleted list has.
+
+      var count = body.childNodes.length;
+
+      // The original body had bodyStartLength elements. As a consequence
+      // any extra items add to the count. Those beyond the original count
+      // need to be removed.
+
+      while (count > bodyStartLength) {
+        count -= 1;   // At least one more extra item.
+        // Reduce the count to reflect the removal of the
+        // last item.
+        // remove the last item in the bulleted list. Count has to be
+        // decremented first, as the index to the last item is one less than
+        // the number of items in a list.
+
+        body.removeChild(body.childNodes[count]);
+      }
+    }
+
+    // iWasClicked is called when one of the two items in the bulleted list
+    // is clicked.  The parameter whoWasClicked is a pointer to the list item
+    // that was clicked.
+
+    function iWasClicked(whoWasClicked) {
+      // list1 is a pointer to the bulleted list.
+
+      var list1 = document.getElementById("list1");
+
+      // child is the index to the list.  It is set to point to the
+      // first item in the list.
+
+      var child = 0;
+
+      // The following loop demonstrates one way in which you can find and point
+      // to a particular element in a specific DOM.
+
+      // Loop over all the items in the list.  Stop looping when the
+      // index goes after the last list item or when the list item indexed
+      // by child is the the list item that was clicked.
+
+      while ( child < list1.childNodes.length
+        && whoWasClicked !== list1.childNodes[child]) {
+        child += 1;
+      }
+
+     // Loop must exit with child pointing to a list element that was clicked,
+     // as this routine is only called if such an element is clicked.
+
+     // The following creates a set of nodes that contain the message that
+     // is displayed when a list item is clicked.
+
+     // Cannot append to list1, as that puts the HTML after the last <li>
+     // and before </ul>, which would construct incorrect HTML.
+     // Append the new HTML to the body of the document.
+
+     var br1 = document.createElement("br");
+     body.appendChild(br1);
+
+     var text = document.createTextNode("  You clicked on ");
+     body.appendChild(text);
+
+     text = document.createTextNode("child " + child + " of " +
+                                    list1.childNodes.length + " : ");
+     body.appendChild(text);
+
+     text = document.createTextNode(whoWasClicked.childNodes[0].data);
+     var span = document.createElement("span");
+     span.style = "font-size:1.1em; color:forestGreen";
+     span.appendChild(text);
+     body.appendChild(span);
+
+     var br2 = document.createElement("br");
+     body.appendChild(br2);
+
+     text = document.createTextNode("You shall smart for it");
+     span = document.createElement("span");
+     span.setAttribute("class","span");
+     span.appendChild(text);
+     body.appendChild(span);
+    }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+var doclickCount = false ;//false means counter is off
+						  //true means counter is on
+var clickCounter ;
+var counter= 0;	    
+	
+//when toogle counter button is pressed,if doclickCount is false(off) change to true(on)
+//when toogle counter button is pressed,if doclickCount is true(on) change to false(off)
+function toggleParagraphCounter(){
+	console.log("this is printed");
+	
+	if (doclickCount==false){
+    console.log("this is printed");		
+	doclickCount= true;	
+	console.log(doclickCount);
+	}
+	else{
+	doclickCount= false;
+	console.log(doclickCount);
+	}
+}
+
+function Aishaa(){
+	console.log(counter); 
+	counter++ ;
+	
+	//if doclickCount is true(on),if/else statment is run depending on even/odd click to pararagraph
+	if(doclickCount==true){  
+		
+		//this is excecuted if paragraph is clicked an even number of times
+		if(counter%2==0){	
+		clickMe();
+		var x = document.createElement("ol");
+		var t = document.createTextNode(" Clicked " + counter + " times with couting enabled");
+		x.appendChild(t);
+		document.body.appendChild(x);
+		document.getElementById("para1").appendChild(x);
+		//ali bhai, the way i have appended it is not the same as figure 3 of the report spec
+		}
+		
+		//this is excecuted if paragraph is clicked an odd number of times
+		else{
+		clickMe()
+		var xx = document.createElement("ol");//creates a list 
+		console.log("li"); //cheking
+		var tt = document.createTextNode(" Clicked " + counter + " times with couting enabled"); 
+		xx.appendChild(tt);
+		document.body.appendChild(xx);
+		document.getElementById("para1").appendChild(xx);
+		//ali bhai,not the same as figure 3. i think its not appending it to the paragraph but as a list
+		}
+		}
+	
+	//if doclickCount is false(off),then clickme is called.
+	else if(doclickCount==false){
+		clickMe();
+	}
+}
+						
+
+	
+	
+	
+
+    
+
+
+
