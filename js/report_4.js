@@ -2,7 +2,7 @@ var doclickCount = false ;//false means counter is off
 						  //true means counter is on
 var clickCounter ;
 var counter= 0;
-
+var newclickmeCounter = 0;
 //when toogle counter button is pressed,if doclickCount is false(off) change to true(on)
 //when toogle counter button is pressed,if doclickCount is true(on) change to false(off)
 function toggleParagraphCounter(){
@@ -12,16 +12,18 @@ function toggleParagraphCounter(){
     console.log("this is printed");
 	doclickCount= true;
 	console.log(doclickCount);
-	document.getElementById("para1").onclick = Aishaa;
+	// Changing the onclick attribute depending on doclickCount
+	document.getElementById("para1").onclick = clickWithCounter;
 	}
 	else{
 	doclickCount= false;
+	// Changing the onclick attribute depending on doclickCount
 	document.getElementById("para1").onclick = clickMe;
 	console.log(doclickCount);
 	}
 }
 
-function Aishaa(){
+function clickWithCounter(){
 	console.log(counter);
 	counter++ ;
 
@@ -40,4 +42,23 @@ function Aishaa(){
 	else if(doclickCount==false){
 		clickMe();
 	}
+}
+
+function addNewClickMeToList()
+{
+	var orderedList = document.getElementById("list1");
+	var listItem = document.createElement('li');
+	var span = document.createElement('span');
+	var span_text = "Click Me";
+
+	var inserted = "#" + newclickmeCounter ;
+	listItem.appendChild(document.createTextNode(inserted));
+	// orderedList.appendChild(listItem);
+	orderedList.insertBefore(listItem, orderedList.children[2]);
+
+	span.appendChild(document.createTextNode(span_text));
+	listItem.appendChild(span);
+
+	newclickmeCounter++;
+
 }
